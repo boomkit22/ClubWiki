@@ -17,6 +17,8 @@ public class Member {
     //email
     //email 수신여부
     //역할 default 정해야겠는데
+    //관심사
+    //동아리에 따른 권한 설정
     @Id
     @Column(name = "student_id")
     private Long id;
