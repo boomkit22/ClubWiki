@@ -20,7 +20,9 @@ public class MemberForm {
     private String department;
     @NotEmpty(message = "이메일은 필수 입니다")
     private String email;
+    private String password;
     private List<Interest> interestList;
     private boolean bReceiveMail;
     private String role = "Member";
+    private String auth = "USER";
 }

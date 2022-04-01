@@ -4,6 +4,8 @@ import com.project.club.Interest;
 import com.project.club.Member;
 import com.project.club.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,6 +18,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class MemberController {
@@ -35,15 +38,20 @@ public class MemberController {
     @GetMapping("/members/new")
     public String createForm(Model model){
         model.addAttribute("memberForm", new MemberForm());
+        log.info("wtf1");
+
         return "members/createMemberForm";
     }
 
     @PostMapping("/members/new")
     public String create(@Valid MemberForm form, BindingResult result){
 
+        log.info("wtf2");
         if(result.hasErrors()){
             return "members/createMemberForm";
         }
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
 
         Member member = new Member();
         member.setId((form.getId()));
@@ -53,6 +61,21 @@ public class MemberController {
         member.setInterestList((form.getInterestList()));
         member.setBReceiveMail((form.isBReceiveMail()));
         member.setRole((form.getRole()));
+        member.setPassword((encoder.encode(form.getPassword())));
+        member.setAuth((form.getAuth()));
+
+
+
+
+//        Member member = Member.builder().id(form.getId())
+//                        .name(form.getName())
+//                                .department(form.getDepartment())
+//                .email(form.getEmail())
+//                .password(form.getPassword())
+//                        .interestList(form.getInterestList())
+//                                .bReceiveMail(form.isBReceiveMail())
+//                                        .role(form.getRole())
+//                                                .build();
 
         memberService.join(member);
 

@@ -21,17 +21,17 @@ public class MemberApiController {
     }
 
 
-    @GetMapping("/api/v1/members/id/{id}")
-    public Member membersOneV1(@PathVariable("id") Long id){
-
-        Member result = memberService.findOne(id);
-        return result;
-    }
-
-    @GetMapping("api/v1/members/name/{name}")
-    public List<Member> membersByName(@PathVariable("name") String name){
-        List<Member> result = memberService.findByName(name);
-        return result;
-    }
+//    @GetMapping("/api/v1/members/id/{id}")
+//    public Member membersOneV1(@PathVariable("id") Long id){
+//
+//        Member result = memberService.findOne(id);
+//        return result;
+//    }
+//
+//    @GetMapping("api/v1/members/name/{name}")
+//    public List<Member> membersByName(@PathVariable("name") String name){
+//        List<Member> result = memberService.findByName(name);
+//        return result;
+//    }
 
 }

@@ -41,6 +41,11 @@ fieldError' : 'form-control'">
             <input type="text" th:field="*{email}" class="form-control"
                    placeholder="이메일을 입력하세요">
         </div>
+        <div class="form-group">
+            <label th:for="password">이메일</label>
+            <input type="text" th:field="*{password}" class="form-control"
+                   placeholder="비밀번호 입력하세요">
+        </div>
 
         <div>
             <div th:each="interest : ${interestList}" class="form-check form-check-inline">
