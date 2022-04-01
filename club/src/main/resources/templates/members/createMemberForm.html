@@ -1,0 +1,71 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
+<style>
+.fieldError {
+border-color: #bd2130;
+}
+
+
+</style>
+
+<body>
+
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+
+    <!--    버튼 누르면 /members/new로 post-->
+    <form role="form" action="/members/new" th:object="${memberForm}"
+          method="post">
+        <div class="form-group">
+            <label th:for="id">학번</label>
+            <input type="text" th:field="*{id}" class="form-control"
+                   placeholder="학번을 입력하세요"
+                   th:class="${#fields.hasErrors('id')}? 'form-control
+fieldError' : 'form-control'">
+            <p th:if="${#fields.hasErrors('id')}"
+               th:errors="*{name}">Incorrect data</p>
+        </div>
+        <div class="form-group">
+            <label th:for="name">이름</label>
+            <input type="text" th:field="*{name}" class="form-control"
+                   placeholder="이름을 입력하세요">
+        </div>
+        <div class="form-group">
+            <label th:for="department">학과</label>
+            <input type="text" th:field="*{department}" class="form-control"
+                   placeholder="학과를 입력하세요">
+        </div>
+        <div class="form-group">
+            <label th:for="email">이메일</label>
+            <input type="text" th:field="*{email}" class="form-control"
+                   placeholder="이메일을 입력하세요">
+        </div>
+
+        <div>
+            <div th:each="interest : ${interestList}" class="form-check form-check-inline">
+                <!--            <label th:for="interestList">관심사</label>-->
+                <!--            <input type="text" th:field="*{interestList}" class="form-control"-->
+                <!--                   placeholder="관심사를 선택하세요">-->
+                <input type="checkbox" th:field="*{interestList}" th:value="${interest.value.interest}" class="form-check-input">
+                <label th:for="${#ids.prev('interestList')}" th:text="${interest.key}" class="form-check-label">운동</label>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label th:for="bReceiveMail">이메일 수신 여부</label>
+            <input type="text" th:field="*{bReceiveMail}" class="form-control"
+                   placeholder="이메일 수신여부를 선택하세요">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    <br/>
+    <div th:replace="fragments/footer :: footer"/>
+</div> <!-- /container -->
+
+</body>
+
+
+</html>
