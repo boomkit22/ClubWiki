@@ -1,21 +1,22 @@
 package com.project.club.service;
 
-import com.project.club.Member;
+import com.project.club.domain.Member;
 import com.project.club.respository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
 public class MemberService implements UserDetailsService {
 
     private final MemberRepository memberRepository;
+
 
     @Autowired
     public MemberService(MemberRepository memberRepository)
@@ -32,6 +33,18 @@ public class MemberService implements UserDetailsService {
 //    public List<Member> findByName(String name) { return memberRepository.findByName(name);}
 
 
+    public Member findOne(Long id){
+        Optional<Member> byId = memberRepository.findById(id);
+
+        if(byId.isPresent()){
+            return byId.get();
+        }
+
+        else{
+            return null;
+        }
+
+    }
 
     @Transactional
     public Long join(Member member)

@@ -1,4 +1,4 @@
-package com.project.club;
+package com.project.club.domain;
 
 import java.io.Serializable;
 

@@ -11,11 +11,12 @@
 <div>
     ID : <span sec:authentication="name"></span> <br>
     소유 권한 : <span sec:authentication="authorities"></span> <br>
+<!--    이메일 : <span sec:authentication="principal.user.email"></span> <br>-->
 </div>
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader" />
     <div class="jumbotron">
-        <h1>HELLO SHOP</h1>
+        <h1>CLUBWIKI</h1>
         <p class="login">로그인</p>
         <p>
             <a class="btn btn-lg btn-secondary" href="/login">로그인</a>
@@ -28,8 +29,9 @@
         </p>
         <p class="lead">상품 기능</p>
         <p>
-            <a class="btn btn-lg btn-dark" href="/items/new">동아리 등록</a>
-            <a class="btn btn-lg btn-dark" href="/items">동아리 목록</a>
+            <a class="btn btn-lg btn-dark" href="/clubs/new">동아리 등록</a>
+            <a class="btn btn-lg btn-dark" href="/userClubs">동아리 목록</a>
+            <a class="btn btn-lg btn-dark" href="/allClubs">전체 동아리 목록</a>
         </p>
         <p class="lead">주문 기능</p>
         <p>

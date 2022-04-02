@@ -1,4 +1,4 @@
-package com.project.club;
+package com.project.club.domain;
 
 public enum Role {
     Member,

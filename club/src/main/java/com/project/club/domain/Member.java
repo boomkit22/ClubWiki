@@ -1,4 +1,4 @@
-package com.project.club;
+package com.project.club.domain;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -31,7 +31,10 @@ public class Member implements UserDetails {
     private String password;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<Interest> interestList = new ArrayList<>();
+    private List<StudentInterest> interestList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<ClubMemberInfo> clubMemberInfoList = new ArrayList<>();
 
     private boolean bReceiveMail;
     private String role;
@@ -43,13 +46,13 @@ public class Member implements UserDetails {
     }
 
     @Builder
-    public Member(Long id, String name, String department, String email, String password, List<Interest> interestList, boolean bReceiveMail, String role, String auth) {
+    public Member(Long id, String name, String department, String email, String password, List<StudentInterest> interestList, boolean bReceiveMail, String role, String auth) {
         this.id = id;
         this.name = name;
         this.department = department;
         this.email = email;
         this.password = password;
-        this.interestList = interestList;
+        this.setInterestList(interestList);
         this.bReceiveMail = bReceiveMail;
         this.role = role;
         this.auth = auth;
@@ -57,9 +60,9 @@ public class Member implements UserDetails {
 
 
 
-    public void setInterestList(List<Interest> interestList) {
+    public void setInterestList(List<StudentInterest> interestList) {
         this.interestList = interestList;
-        for(Interest interest : interestList){
+        for(StudentInterest interest : interestList){
             interest.setMember(this);
         }
     }

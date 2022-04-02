@@ -1,7 +1,7 @@
 package com.project.club.respository;
 
 
-import com.project.club.Member;
+import com.project.club.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader" />
+    <div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>이름</th>
+                <th>카테고리</th>
+                <th>카테고리</th>
+                <th>탈퇴</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="Dto : ${userClubDtos}">
+                <td th:text="${Dto.club.id}"></td>
+                <td th:text="${Dto.club.name}"></td>
+                <div th:each="interest : ${Dto.club.interestList}">
+                    <td th:text="${interest.interest}"></td>
+                </div>
+
+                <form role="form" action="/userClubs/delete" method="post"/>
+                <input type="hidden" th:name="clubMemberInfoId" th:value="${Dto.clubMemberInfoId}">
+                <td>
+                    <button type="submit" class="btn btn-danger">탈퇴</button>
+                </td>
+                </form>
+
+                <!--    address가 null 이면 city 안찍는            -->
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div th:replace="fragments/footer :: footer" />
+</div> <!-- /container -->
+</body>
+</html>

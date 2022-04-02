@@ -1,7 +1,7 @@
 package com.project.club.controller;
 
-import com.project.club.Interest;
-import com.project.club.Member;
+import com.project.club.domain.StudentInterest;
+import com.project.club.domain.Member;
 import com.project.club.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,11 +26,11 @@ public class MemberController {
     private final MemberService memberService;
 
     @ModelAttribute("interestList")
-    public Map<String, Interest> interests() {
-        Map<String, Interest> interestList = new LinkedHashMap<>();
+    public Map<String, StudentInterest> interests() {
+        Map<String, StudentInterest> interestList = new LinkedHashMap<>();
 
-        interestList.put("운동" , new Interest("training"));
-        interestList.put("음악" , new Interest("music"));
+        interestList.put("운동" , new StudentInterest("training"));
+        interestList.put("음악" , new StudentInterest("music"));
 
         return interestList;
     }
@@ -63,10 +63,6 @@ public class MemberController {
         member.setRole((form.getRole()));
         member.setPassword((encoder.encode(form.getPassword())));
         member.setAuth((form.getAuth()));
-
-
-
-
 //        Member member = Member.builder().id(form.getId())
 //                        .name(form.getName())
 //                                .department(form.getDepartment())
@@ -76,7 +72,6 @@ public class MemberController {
 //                                .bReceiveMail(form.isBReceiveMail())
 //                                        .role(form.getRole())
 //                                                .build();
-
         memberService.join(member);
 
         return "redirect:/";

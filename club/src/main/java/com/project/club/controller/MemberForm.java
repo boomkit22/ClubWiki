@@ -1,6 +1,6 @@
 package com.project.club.controller;
 
-import com.project.club.Interest;
+import com.project.club.domain.StudentInterest;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,7 +21,7 @@ public class MemberForm {
     @NotEmpty(message = "이메일은 필수 입니다")
     private String email;
     private String password;
-    private List<Interest> interestList;
+    private List<StudentInterest> interestList;
     private boolean bReceiveMail;
     private String role = "Member";
     private String auth = "USER";
