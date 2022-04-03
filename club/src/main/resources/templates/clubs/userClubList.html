@@ -12,7 +12,9 @@
                 <th>이름</th>
                 <th>카테고리</th>
                 <th>카테고리</th>
+                <th>접속</th>
                 <th>탈퇴</th>
+
             </tr>
             </thead>
             <tbody>
@@ -22,6 +24,13 @@
                 <div th:each="interest : ${Dto.club.interestList}">
                     <td th:text="${interest.interest}"></td>
                 </div>
+
+                <form role="form" action="/clubBoards" method="get"/>
+                <input type="hidden" th:name="clubId" th:value="${Dto.club.id}">
+                <td>
+                    <button type="submit" class="btn btn-danger">접속</button>
+                </td>
+                </form>
 
                 <form role="form" action="/userClubs/delete" method="post"/>
                 <input type="hidden" th:name="clubMemberInfoId" th:value="${Dto.clubMemberInfoId}">

@@ -36,6 +36,10 @@ public class Member implements UserDetails {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<ClubMemberInfo> clubMemberInfoList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Article> articleList = new ArrayList<>();
+
+
     private boolean bReceiveMail;
     private String role;
     public String auth;

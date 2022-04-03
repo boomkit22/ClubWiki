@@ -1,16 +1,13 @@
-//package com.project.club;
-//
+//package com.project.club.domain;
 //
 //import lombok.Getter;
 //import lombok.Setter;
 //
-//import javax.persistence.Entity;
-//import javax.persistence.GeneratedValue;
-//import javax.persistence.Id;
+//import javax.persistence.*;
 //import java.util.ArrayList;
 //import java.util.List;
 //
-//@Entity
+//
 //@Getter
 //@Setter
 //public class Board {
@@ -21,7 +18,11 @@
 //
 //    private String name;
 //
-//    private List<Article> articleList = new ArrayList<>();
+//    public Board() {
+//    }
 //
+//    public Board(String name, List<Article> articleList) {
+//        this.name = name;
+//    }
 //
 //}

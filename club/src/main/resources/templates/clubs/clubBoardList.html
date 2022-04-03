@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+<body>
+
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader" />
+    <div>
+        <table class="table table-striped">
+            <thead>
+
+            <td th:text="${clubId}"></td>
+            <div>
+                <form role="form" th:action="@{/clubBoards/new/__${clubId}__}"  method="get"/>
+                <td>
+                    <button type="submit" class="btn btn-primary">게시판 생성</button>
+                </td>
+                </form>
+            </div>
+
+            <tr>
+                <th>이름</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="clubBoard : ${clubBoards}">
+                <td th:text="${clubBoard.name}"></td>
+            </tr>
+            </tbody>
+
+        </table>
+    </div>
+    <div th:replace="fragments/footer :: footer" />
+</div> <!-- /container -->
+</body>
+</html>

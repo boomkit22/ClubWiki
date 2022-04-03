@@ -23,6 +23,9 @@ public class Club {
     @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
     private List<ClubInterest> interestList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
+    private List<ClubBoard> clubBoardList = new ArrayList<>();
+
     //One to Many
     //todo
     //private List<Board> boardList = new ArrayList<>();
@@ -39,14 +42,17 @@ public class Club {
         }
     }
 
-    public Club(String name, List<ClubMemberInfo> clubMemberInfoList, List<ClubInterest> interestList) {
+    public Club(String name, List<ClubMemberInfo> clubMemberInfoList, List<ClubInterest> interestList, List<ClubBoard> clubBoardList) {
         this.name = name;
         this.clubMemberInfoList = clubMemberInfoList;
         this.interestList = interestList;
+        this.clubBoardList = clubBoardList;
     }
 
     public Club(String name, List<ClubInterest> interestList) {
         this.name = name;
         this.setInterestList(interestList);
     }
+
+
 }

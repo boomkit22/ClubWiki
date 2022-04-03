@@ -1,36 +1,46 @@
-//package com.project.club;
-//
-//
-//import lombok.Getter;
-//import lombok.Setter;
-//
-//import javax.persistence.*;
-//
-//@Entity
-//@Getter
-//@Setter
-//public class Article {
-//
-//    @Id
-//    @GeneratedValue
-//    private Long id;
-//
-//
-//    @ManyToOne
-//    @JoinColumn(name = "writer_student_id")
-//    private Member writer;
-//
-//    private String data;
-//
-//    public Article(){
-//
-//
-//    }
-//
-//    public Article(Long id, Member writer, String data) {
-//        this.id = id;
-//        this.writer = writer;
-//        this.data = data;
-//    }
-//
-//}
+package com.project.club.domain;
+
+
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.*;
+import java.time.LocalDateTime;
+
+@Entity
+@Getter
+@Setter
+public class Article {
+
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "board_id")
+    private ClubBoard clubBoard;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_id")
+    private Member member;
+
+    private String data;
+
+    private LocalDateTime writeTime;
+
+
+    public Article(){
+
+
+    }
+
+
+    public Article(ClubBoard clubBoard, Member member, String data, LocalDateTime writeTime) {
+        this.clubBoard = clubBoard;
+        this.member = member;
+        this.data = data;
+        this.writeTime = writeTime;
+    }
+
+
+}

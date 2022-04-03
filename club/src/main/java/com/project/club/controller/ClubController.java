@@ -114,6 +114,8 @@ public class ClubController {
         return "redirect:/";
     }
 
+
+
     @PostMapping("/allClubs/join")
     public String joinClub(@Valid @AuthenticationPrincipal Member member, Model model, @RequestParam(name="clubId") Long id)
     {
@@ -122,6 +124,7 @@ public class ClubController {
         Club club = clubService.findOne(id);
         clubMemberInfo.setClub(club);
         clubMemberInfo.setMember(member);
+        clubMemberInfo.setRole("Member");
         clubMemberService.join(clubMemberInfo);
         return "redirect:/";
     }
@@ -134,9 +137,9 @@ public class ClubController {
         log.info(one.getName());
         clubService.delete(one);
 
-
         return "redirect:/";
     }
+
 
 
 }

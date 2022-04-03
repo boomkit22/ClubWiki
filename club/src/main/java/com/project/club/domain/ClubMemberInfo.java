@@ -24,6 +24,8 @@ public class ClubMemberInfo {
     private Club club;
 
 
+    private String role;
+
     public ClubMemberInfo() {
     }
 
