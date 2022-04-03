@@ -20,9 +20,12 @@ public class Article {
     @JoinColumn(name = "board_id")
     private ClubBoard clubBoard;
 
+    //작성자
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")
     private Member member;
+
+    private String title;
 
     private String data;
 

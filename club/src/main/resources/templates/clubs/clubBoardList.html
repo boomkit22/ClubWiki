@@ -20,12 +20,22 @@
 
             <tr>
                 <th>이름</th>
+                <th>이동</th>
             </tr>
             </thead>
 
             <tbody>
             <tr th:each="clubBoard : ${clubBoards}">
+
                 <td th:text="${clubBoard.name}"></td>
+
+                <form role="form" th:action="@{/clubBoards/__${clubBoard.id}__}" method="get"/>
+                <td>
+                    <button type="submit" class="btn btn-primary">이동</button>
+                </td>
+                </form>
+
+
             </tr>
             </tbody>
 

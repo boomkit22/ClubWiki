@@ -1,8 +1,10 @@
 package com.project.club.controller;
 
+import com.project.club.domain.Article;
 import com.project.club.domain.Club;
 import com.project.club.domain.ClubBoard;
 import com.project.club.domain.Member;
+import com.project.club.service.ArticleService;
 import com.project.club.service.ClubBoardService;
 import com.project.club.service.ClubService;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +29,7 @@ public class ClubBoardController {
 
     private final ClubService clubService;
     private final ClubBoardService clubBoardService;
+    private final ArticleService articleService;
 
 
     //user가 소속되어있는 클럽의 클럽보드 list를 보여줌
@@ -44,6 +47,29 @@ public class ClubBoardController {
         return "clubs/clubBoardList";
     }
 
+    @GetMapping("/clubBoards/{clubBoardId}")
+    public String move(Model model, @PathVariable("clubBoardId") Long clubBoardId)
+    {
+//        model.addAttribute("clubBoardId",clubBoardId);
+
+        ClubBoard clubBoard = clubBoardService.findById(clubBoardId);
+        List<Article> articleList = articleService.findByClubBoard(clubBoard);
+
+        for ( Article article : articleList){
+
+            article.getMember().getName();
+
+        }
+
+        model.addAttribute("articleList", articleList);
+        model.addAttribute("clubBoardId", clubBoardId);
+        //todo articleService 를 사용한 article List가져오기  clubBoard Id 사용해서
+
+        return "clubs/boards/articleList";
+    }
+
+
+
     @GetMapping("/clubBoards/new/{clubId}")
     public String createForm(Model model,@PathVariable("clubId") Long id){
         model.addAttribute("clubBoardForm", new ClubBoardForm());
@@ -51,7 +77,6 @@ public class ClubBoardController {
 
         log.info("getMapping");
         return "clubs/createClubBoardForm";
-
     }
 
     @PostMapping("/clubBoards/new/{clubId}")
@@ -72,6 +97,7 @@ public class ClubBoardController {
 
 
         String url = "redirect:/clubBoards?clubId="+ id.toString();
+
         return url;
     }
 

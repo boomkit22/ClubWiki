@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <div>
+        <table class="table table-striped">
+            <thead>
+            <th> 게시글</th>
+            </thead>
+            <tbody>
+            <td th:text="${article.title}"></td>
+            </tbody>
+
+            <thead>
+            <th> 내용</th>
+            </thead>
+            <tbody>
+            <td th:text="${article.data}"></td>
+            </tbody>
+
+    </div>
+    <div th:replace="fragments/footer :: footer"/>
+</div> <!-- /container -->
+</body>
+</html>
