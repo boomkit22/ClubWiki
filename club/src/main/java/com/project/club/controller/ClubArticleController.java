@@ -35,12 +35,9 @@ public class ClubArticleController {
     public String createForm(@AuthenticationPrincipal Member member, Model model, @PathVariable("clubBoardId") Long clubBoardId)
     {
         ArticleForm articleForm = new ArticleForm();
-        articleForm.setWriteTime(LocalDateTime.now());
 
         model.addAttribute("articleForm",articleForm);
         model.addAttribute("clubBoardId",clubBoardId);
-
-
 
         return "clubs/boards/createArticleForm";
 
@@ -61,7 +58,7 @@ public class ClubArticleController {
     {
         Article article = new Article();
         article.setMember(member);
-        article.setWriteTime(form.getWriteTime());
+        article.setWriteTime(LocalDateTime.now());
         article.setTitle(form.getTitle());
         article.setData(form.getData());
 
@@ -69,6 +66,51 @@ public class ClubArticleController {
         article.setClubBoard(clubBoard);
 
         articleService.join(article);
+        String url = "redirect:/clubBoards/"+ clubBoardId.toString();
+
+        return url;
+
+    }
+
+    @PostMapping("clubBoards/{clubBoardId}/deleteArticle")
+    public String delete(@RequestParam(name="articleId") Long articleId, @PathVariable("clubBoardId") Long clubBoardId)
+    {
+        articleService.deleteById(articleId);
+
+        String url = "redirect:/clubBoards/"+ clubBoardId.toString();
+        return url;
+    }
+
+
+    @GetMapping("clubBoards/updateArticle")
+    public String updateForm(@AuthenticationPrincipal Member member, Model model, @RequestParam(name="articleId") Long articleId)
+    {
+        ArticleForm articleForm = new ArticleForm();
+        Article article = articleService.findById(articleId);
+
+        articleForm.setTitle(article.getTitle());
+        articleForm.setData(article.getData());
+        model.addAttribute("articleId",article.getId());
+        Long id = article.getClubBoard().getId();
+        model.addAttribute("articleForm",articleForm);
+        model.addAttribute("clubBoardId", id);
+        return "clubs/boards/updateArticleForm";
+
+    }
+
+    @PostMapping("clubBoards/updateArticle")
+    public String update(@AuthenticationPrincipal Member member, @Valid ArticleForm form, BindingResult result,@RequestParam(name="clubBoardId") Long clubBoardId, @RequestParam(name="articleId") Long articleId)
+    {
+        Article article = new Article();
+        article.setMember(member);
+        article.setId(articleId);
+        article.setWriteTime(LocalDateTime.now());
+        article.setTitle(form.getTitle());
+        article.setData(form.getData());
+        ClubBoard clubBoard = clubBoardService.findById(clubBoardId);
+        article.setClubBoard(clubBoard);
+
+        articleService.save(article);
         String url = "redirect:/clubBoards/"+ clubBoardId.toString();
 
         return url;

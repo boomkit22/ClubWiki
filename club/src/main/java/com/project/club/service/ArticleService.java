@@ -4,6 +4,7 @@ import com.project.club.domain.Article;
 import com.project.club.domain.ClubBoard;
 import com.project.club.respository.ArticleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +33,22 @@ public class ArticleService {
         return article.getId();
     }
 
+    @Transactional
+    public Long deleteById(Long id)
+    {
+        articleRepository.deleteById(id);
+        return id;
+
+
+    }
+
+    @Transactional
+    public Long save(Article article)
+    {
+        articleRepository.save(article);
+
+        return article.getId();
+    }
     public List<Article> findByClubBoard(ClubBoard clubBoard){
         return articleRepository.findByClubBoard(clubBoard);
     }

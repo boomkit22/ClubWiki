@@ -7,6 +7,14 @@
     <div>
         <table class="table table-striped">
             <thead>
+            <form role="form" th:action="@{/clubBoards/updateArticle}" method="get"/>
+
+            <input type="hidden" th:name="articleId" th:value="${article.id}">
+            <td>
+                <button type="submit" class="btn btn-dark">수정</button>
+            </td>
+            </form>
+
             <th> 게시글</th>
             </thead>
             <tbody>
