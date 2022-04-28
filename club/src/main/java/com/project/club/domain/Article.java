@@ -1,6 +1,8 @@
 package com.project.club.domain;
 
 
+import com.project.club.controller.ArticleCategory;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,21 +29,36 @@ public class Article {
 
     private String title;
 
+    private String intro;
+
     private String data;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "article_category")
+    private ArticleCategory articleCategory;
+
+
+    private boolean bLock;
+
+
+    private String oneLineReview;
 
     private LocalDateTime writeTime;
 
-
     public Article(){
-
 
     }
 
 
-    public Article(ClubBoard clubBoard, Member member, String data, LocalDateTime writeTime) {
+    public Article(ClubBoard clubBoard, Member member, String title, String intro, String data, ArticleCategory articleCategory, boolean bLock, String oneLineReview, LocalDateTime writeTime) {
         this.clubBoard = clubBoard;
         this.member = member;
+        this.title = title;
+        this.intro = intro;
         this.data = data;
+        this.articleCategory = articleCategory;
+        this.bLock = bLock;
+        this.oneLineReview = oneLineReview;
         this.writeTime = writeTime;
     }
 

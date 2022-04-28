@@ -60,7 +60,12 @@ public class ClubArticleController {
         article.setMember(member);
         article.setWriteTime(LocalDateTime.now());
         article.setTitle(form.getTitle());
+        article.setIntro(form.getIntro());
+        article.setBLock(form.isBLock());
         article.setData(form.getData());
+        article.setArticleCategory(form.getArticleCategory());
+        article.setOneLineReview(form.getOneLineReview());
+
 
         ClubBoard clubBoard = clubBoardService.findById(clubBoardId);
         article.setClubBoard(clubBoard);

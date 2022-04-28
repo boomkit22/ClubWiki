@@ -25,11 +25,42 @@ border-color: #bd2130;
                    placeholder="제목을 입력하세요">
         </div>
 
+
+        <div class="form-group">
+            <label th:for="name">소개</label>
+            <input type="text" th:field="*{intro}" class="form-control"
+                   placeholder="소개글을 입력하세요">
+        </div>
+
+        <div class="form-group">
+            <select th:field="*{articleCategory}">
+                <option th:each="category : ${T(com.project.club.controller.ArticleCategory).values()}"
+                        th:value="${category}" th:text="${category.displayValue}">
+                </option>
+            </select>
+        </div>
+
         <div class="form-group">
             <label th:for="name">내용</label>
             <input type="text" th:field="*{data}" class="form-control"
                    placeholder="내용을 입력하세요">
         </div>
+
+        <div class="form-group">
+            <label th:for="name">회장의 말씀</label>
+            <input type="text" th:field="*{oneLineReview}" class="form-control"
+                   placeholder="내용을 입력하세요">
+        </div>
+
+
+
+        <div class="form-group">
+            <select th:field="*{bLock}">
+                <option th:value="true" >true</option>
+                <option th:value="false" >false</option>
+            </select>
+        </div>
+
 
         <button type="submit" class="btn btn-primary">Submit</button>
 
