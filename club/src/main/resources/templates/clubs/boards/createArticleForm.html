@@ -32,6 +32,7 @@ border-color: #bd2130;
                    placeholder="소개글을 입력하세요">
         </div>
 
+<!-- 카테고리 -->
         <div class="form-group">
             <select th:field="*{articleCategory}">
                 <option th:each="category : ${T(com.project.club.controller.ArticleCategory).values()}"

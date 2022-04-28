@@ -49,7 +49,9 @@ public class ArticleService {
 
         return article.getId();
     }
-    public List<Article> findByClubBoard(ClubBoard clubBoard){
+
+    public List<Article> findByClubBoard(ClubBoard clubBoard)
+    {
         return articleRepository.findByClubBoard(clubBoard);
     }
 

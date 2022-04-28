@@ -33,9 +33,7 @@ public class Article {
 
     private String data;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "article_category")
-    private ArticleCategory articleCategory;
+    private String articleCategory;
 
 
     private boolean bLock;
@@ -50,7 +48,7 @@ public class Article {
     }
 
 
-    public Article(ClubBoard clubBoard, Member member, String title, String intro, String data, ArticleCategory articleCategory, boolean bLock, String oneLineReview, LocalDateTime writeTime) {
+    public Article(ClubBoard clubBoard, Member member, String title, String intro, String data, String articleCategory, boolean bLock, String oneLineReview, LocalDateTime writeTime) {
         this.clubBoard = clubBoard;
         this.member = member;
         this.title = title;
