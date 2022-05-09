@@ -17,9 +17,9 @@
             </div>
 
             <tr>
-                <th>제목</th>
                 <th>작성자</th>
-                <th>작성시간</th>
+                <th>최초작성시간</th>
+                <th>최후수정시간</th>
                 <th>보기</th>
                 <th>삭제</th>
             </tr>
@@ -27,10 +27,11 @@
             <tbody>
             <tr th:each="article : ${articleList}">
 
-                <td th:text="${article.title}"></td>
                 <td th:text="${article.member?.name}"></td>
-                <td th:text="${article.writeTime}"></td>
 
+                <td th:text="${article.getCreatedDate()}"></td>
+
+                <td th:text="${article.getModifiedDate()}"></td>
 
                 <!-- club id로 가입 버튼 할수 있겟는데 -->
                 <form role="form" th:action="@{/clubBoards/__${clubBoardId}__/article}" method="get"/>
@@ -54,7 +55,6 @@
             </tbody>
         </table>
     </div>
-    <div th:replace="fragments/footer :: footer"/>
 </div> <!-- /container -->
 </body>
 </html>

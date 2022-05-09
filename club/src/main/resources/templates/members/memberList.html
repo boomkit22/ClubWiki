@@ -15,6 +15,7 @@
                 <th>관심사</th>
                 <th>관심사</th>
                 <th>이메일 수신 여부</th>
+                <th>자기소개</th>
             </tr>
             </thead>
             <tbody>
@@ -27,13 +28,13 @@
                     <td th:text="${interest.interest}"></td>
                 </div>
                 <td th:text="${member.bReceiveMail}"></td>
+                <td th:text="${member.selfIntroduction}"></td>
 
 <!--    address가 null 이면 city 안찍는            -->
             </tr>
             </tbody>
         </table>
     </div>
-    <div th:replace="fragments/footer :: footer" />
 </div> <!-- /container -->
 </body>
 </html>

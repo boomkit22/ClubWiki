@@ -1,5 +1,6 @@
 package com.project.club.domain;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,12 +11,21 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-public class Club {
+public class Club extends BaseTimeEntity {
 
     @Id
     @GeneratedValue
     private Long id;
     private String name;
+
+    private String introduction;
+
+    private String location;
+
+    private String phoneNumber;
+
+    private String image_url;
+
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<ClubMemberInfo> clubMemberInfoList = new ArrayList<>();
@@ -54,5 +64,12 @@ public class Club {
         this.setInterestList(interestList);
     }
 
-
+    @Builder
+    public Club(String name, String introduction, String location, String phoneNumber, String image_url) {
+        this.name = name;
+        this.introduction = introduction;
+        this.location = location;
+        this.phoneNumber = phoneNumber;
+        this.image_url = image_url;
+    }
 }

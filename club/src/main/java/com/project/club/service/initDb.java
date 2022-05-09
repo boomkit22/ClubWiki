@@ -41,9 +41,9 @@ public class initDb {
             interestList.add(interest2);
 //
 
-            String password = encoder.encode("qkd077023!");
+            String password = encoder.encode("wjdgns11!");
 
-            Member member1 = new Member(201820783L, "김정훈" , Department.Software.toString(), "asdfjo@ajou.ac.kr", password, interestList,true, Role.Member.toString() ,"USER");
+            Member member1 = new Member(201820783L, "김정훈" , Department.Software.toString(), "asdfjo@ajou.ac.kr", password, interestList,true, true, Role.Member.toString() ,"USER","HI");
             em.persist(member1);
 //
 //            Member member2 = new Member(201720716L, "정다진", Department.Media.toString(),"dajin@ajou.ac.kr",interestList,true,Role.Member.toString());

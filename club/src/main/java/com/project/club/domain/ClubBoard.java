@@ -1,5 +1,6 @@
 package com.project.club.domain;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,6 +21,14 @@ public class ClubBoard{
 
     private String name;
 
+    private String intro;
+
+    private String oneLineReview;
+
+    private String boardCategory;
+
+    private boolean bLock;
+
     @OneToMany(mappedBy = "clubBoard", cascade = CascadeType.ALL)
     private List<Article> articleList = new ArrayList<>();
 
@@ -31,8 +40,14 @@ public class ClubBoard{
     public ClubBoard() {
     }
 
-    public ClubBoard(String name, List<Article> articleList) {
+    @Builder
+    public ClubBoard(String name, String intro, String oneLineReview, String boardCategory, boolean bLock, List<Article> articleList, Club club) {
         this.name = name;
+        this.intro = intro;
+        this.oneLineReview = oneLineReview;
+        this.boardCategory = boardCategory;
+        this.bLock = bLock;
         this.articleList = articleList;
+        this.club = club;
     }
 }

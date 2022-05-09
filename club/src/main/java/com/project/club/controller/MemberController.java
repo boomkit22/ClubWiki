@@ -50,6 +50,7 @@ public class MemberController {
         if(result.hasErrors()){
             return "members/createMemberForm";
         }
+
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
 
@@ -63,15 +64,8 @@ public class MemberController {
         member.setRole((form.getRole()));
         member.setPassword((encoder.encode(form.getPassword())));
         member.setAuth((form.getAuth()));
-//        Member member = Member.builder().id(form.getId())
-//                        .name(form.getName())
-//                                .department(form.getDepartment())
-//                .email(form.getEmail())
-//                .password(form.getPassword())
-//                        .interestList(form.getInterestList())
-//                                .bReceiveMail(form.isBReceiveMail())
-//                                        .role(form.getRole())
-//                                                .build();
+        member.setSelfIntroduction(form.getSelfIntroduction());
+
         memberService.join(member);
 
         return "redirect:/";
@@ -79,7 +73,6 @@ public class MemberController {
 
     @GetMapping("/members")
     public String list(Model model){
-
         List<Member> members = memberService.findMembers();
         model.addAttribute("members", members);
         return "members/memberList";

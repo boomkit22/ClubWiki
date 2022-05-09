@@ -16,6 +16,7 @@ import com.project.club.service.MemberService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +27,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 //잠금,해제 api
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 public class ClubArticleApiController {
@@ -34,37 +36,39 @@ public class ClubArticleApiController {
     private final ClubBoardService clubBoardService;
     private final MemberService memberService;
 
+    //위키 게시판 한개 속 전체 게시글 내용 불러오기
+    //todo 사진
     @GetMapping("/api/clubs/allArticles/{clubBoardId}")
     public Result allArticleList(@PathVariable("clubBoardId") Long clubBoardId)
     {
         ClubBoard clubBoard = clubBoardService.findById(clubBoardId);
         List<Article> articleList = articleService.findByClubBoard(clubBoard);
-        List<ArticleListDto> collect = articleList.stream().map(m-> new ArticleListDto(m.getTitle(),m.getMember().getName(),
-                m.getWriteTime())).collect(Collectors.toList());
+        List<ArticleListDto> collect = articleList.stream().map(m-> new ArticleListDto(m.getData(), m.getCreatedDate()
+             )).collect(Collectors.toList());
 
         return new Result(collect.size(),collect);
     }
 
-    @GetMapping("/api/clubs/lockedArticles/{clubBoardId}")
-    public Result lockedArticleList(@PathVariable("clubBoardId") Long clubBoardId
-                                    ,@RequestParam(name="locked") int locked)
-    {
-        ClubBoard clubBoard = clubBoardService.findById(clubBoardId);
-        List<Article> articleList = articleService.findByClubBoard(clubBoard);
-
-        if(locked == 0 )
-        {
-            articleList.removeIf(article -> (article.isBLock() == true));
-        }
-        else if(locked == 1)
-        {
-            articleList.removeIf(article -> (article.isBLock() == false));
-        }
-        List<ArticleListDto> collect = articleList.stream().map(m-> new ArticleListDto(m.getTitle(),m.getMember().getName(),
-                m.getWriteTime())).collect(Collectors.toList());
-
-        return new Result(collect.size(),collect);
-    }
+//    @GetMapping("/api/clubs/lockedArticles/{clubBoardId}")
+//    public Result lockedArticleList(@PathVariable("clubBoardId") Long clubBoardId
+//                                    ,@RequestParam(name="locked") int locked)
+//    {
+//        ClubBoard clubBoard = clubBoardService.findById(clubBoardId);
+//        List<Article> articleList = articleService.findByClubBoard(clubBoard);
+//
+//        if(locked == 0 )
+//        {
+//            articleList.removeIf(article -> (article.isBLock() == true));
+//        }
+//        else if(locked == 1)
+//        {
+//            articleList.removeIf(article -> (article.isBLock() == false));
+//        }
+//        List<ArticleListDto> collect = articleList.stream().map(m-> new ArticleListDto(m.getTitle(),m.getMember().getName(),
+//                m.getWriteTime())).collect(Collectors.toList());
+//
+//        return new Result(collect.size(),collect);
+//    }
 
 
 
@@ -74,9 +78,7 @@ public class ClubArticleApiController {
     {
         Article article = articleService.findById(articleId);
         ArticleDto articleDto = new ArticleDto(article.getMember().getName()
-        ,article.getTitle(),article.getIntro(),article.getData()
-        ,article.getArticleCategory()
-        ,article.isBLock(),article.getOneLineReview(),article.getWriteTime());
+        ,article.getData());
 
         return articleDto;
     }
@@ -86,21 +88,25 @@ public class ClubArticleApiController {
                                              @RequestParam(name="memberId") Long memberId,
                                              @RequestBody @Valid CreateArticleRequest request)
     {
+        //todo
+        //멤버나 clubBoard가 null인 경우 처리
+
         Article article = new Article();
         ClubBoard clubBoard = clubBoardService.findById(clubBoardId);
 
         Member member = memberService.findOne(memberId);
+        if(member!= null){
+            log.info(member.getName());
+        } else if (member == null)
+        {
+            log.info(memberId.toString());
+            log.info("member was null");
+        }
 
         article.setClubBoard(clubBoard);
         article.setMember(member);
-        article.setTitle(request.getTitle());
-        article.setIntro(request.getIntro());
         article.setData(request.getData());
-        article.setArticleCategory(request.getArticleCategory());
-        article.setBLock(request.isBLock());
-        article.setOneLineReview(request.getOneLineReview());
-        article.setWriteTime(request.getWriteTime());
-        Long id = articleService.join(article);
+        Long id = articleService.save(article);
 
         return new CreateArticleResponse(id);
     }
@@ -125,22 +131,15 @@ public class ClubArticleApiController {
     @Data
     @AllArgsConstructor
     static class ArticleListDto{
-        private String title;
-        private String writer;
-        private LocalDateTime writeTime;
+        private String data;
+        private LocalDateTime createdDate;
     }
 
     @Data
     @AllArgsConstructor
     static class ArticleDto{
-        private String writer;
-        private String title;
-        private String intro;
+        private String memberName;
         private String data;
-        private String category;
-        private boolean bLock;
-        private String oneLineReview;
-        private LocalDateTime writeTime;
     }
 
 //    //update
@@ -167,30 +166,14 @@ public class ClubArticleApiController {
 
     @Data
     static class CreateArticleRequest{
-
-
-        private String title;
-        private String intro;
         private String data;
-        private String articleCategory;
-        private boolean bLock;
-        private String oneLineReview;
-        private LocalDateTime writeTime;
-
         public CreateArticleRequest()
         {
 
         }
 
-        public CreateArticleRequest(String title, String intro, String data, String articleCategory, boolean bLock, String oneLineReview, LocalDateTime writeTime) {
-
-            this.title = title;
-            this.intro = intro;
+        public CreateArticleRequest(String data) {
             this.data = data;
-            this.articleCategory = articleCategory;
-            this.bLock = bLock;
-            this.oneLineReview = oneLineReview;
-            this.writeTime = writeTime;
         }
     }
 

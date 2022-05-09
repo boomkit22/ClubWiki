@@ -90,6 +90,11 @@ public class ClubBoardController {
 
         ClubBoard clubBoard = new ClubBoard();
         clubBoard.setName(form.getName());
+        clubBoard.setBoardCategory(form.getBoardCategory());
+        clubBoard.setBLock(form.isBLock());
+        clubBoard.setIntro(form.getIntro());
+        clubBoard.setOneLineReview(form.getOneLineReview());
+
         Club club = clubService.findOne(id);
         clubBoard.setClub(club);
 

@@ -58,13 +58,7 @@ public class ClubArticleController {
     {
         Article article = new Article();
         article.setMember(member);
-        article.setWriteTime(LocalDateTime.now());
-        article.setTitle(form.getTitle());
-        article.setIntro(form.getIntro());
-        article.setBLock(form.isBLock());
         article.setData(form.getData());
-        article.setArticleCategory(form.getArticleCategory());
-        article.setOneLineReview(form.getOneLineReview());
 
 
         ClubBoard clubBoard = clubBoardService.findById(clubBoardId);
@@ -93,7 +87,6 @@ public class ClubArticleController {
         ArticleForm articleForm = new ArticleForm();
         Article article = articleService.findById(articleId);
 
-        articleForm.setTitle(article.getTitle());
         articleForm.setData(article.getData());
         model.addAttribute("articleId",article.getId());
         Long id = article.getClubBoard().getId();
@@ -106,19 +99,11 @@ public class ClubArticleController {
     @PostMapping("clubBoards/updateArticle")
     public String update(@AuthenticationPrincipal Member member, @Valid ArticleForm form, BindingResult result,@RequestParam(name="clubBoardId") Long clubBoardId, @RequestParam(name="articleId") Long articleId)
     {
-        Article article = new Article();
-        article.setMember(member);
-        article.setId(articleId);
-        article.setWriteTime(LocalDateTime.now());
-        article.setTitle(form.getTitle());
+        Article article = articleService.findById(articleId);
         article.setData(form.getData());
-        ClubBoard clubBoard = clubBoardService.findById(clubBoardId);
-        article.setClubBoard(clubBoard);
-
         articleService.save(article);
         String url = "redirect:/clubBoards/"+ clubBoardId.toString();
-
         return url;
-
     }
+
 }

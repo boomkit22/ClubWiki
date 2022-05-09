@@ -41,8 +41,6 @@ public class ClubService {
         else{
             return null;
         }
-
-
     }
 
     @Transactional

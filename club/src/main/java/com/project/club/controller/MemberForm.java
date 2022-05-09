@@ -25,4 +25,5 @@ public class MemberForm {
     private boolean bReceiveMail;
     private String role = "Member";
     private String auth = "USER";
+    private String selfIntroduction;
 }

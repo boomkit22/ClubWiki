@@ -12,7 +12,7 @@ import java.util.*;
 
 @Entity
 @Getter @Setter
-public class Member implements UserDetails {
+public class Member extends BaseTimeEntity implements UserDetails {
 
     //학번
     //이름
@@ -30,6 +30,8 @@ public class Member implements UserDetails {
     private String email;
     private String password;
 
+    private String selfIntroduction;
+
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<StudentInterest> interestList = new ArrayList<>();
 
@@ -40,6 +42,7 @@ public class Member implements UserDetails {
     private List<Article> articleList = new ArrayList<>();
 
 
+    private boolean bAuthenticated;
     private boolean bReceiveMail;
     private String role;
     public String auth;
@@ -50,16 +53,18 @@ public class Member implements UserDetails {
     }
 
     @Builder
-    public Member(Long id, String name, String department, String email, String password, List<StudentInterest> interestList, boolean bReceiveMail, String role, String auth) {
+    public Member(Long id, String name, String department, String email, String password, List<StudentInterest> interestList, boolean bAuthenticated, boolean bReceiveMail, String role, String auth, String selfIntroduction) {
         this.id = id;
         this.name = name;
         this.department = department;
         this.email = email;
         this.password = password;
         this.setInterestList(interestList);
+        this.bAuthenticated = bAuthenticated;
         this.bReceiveMail = bReceiveMail;
         this.role = role;
         this.auth = auth;
+        this.selfIntroduction = selfIntroduction;
     }
 
 
