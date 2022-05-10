@@ -77,7 +77,9 @@ public class ClubArticleApiController {
         }
 
         article.setClubBoard(clubBoard);
-        article.setMember(member);
+        List memberArticleList = member.getArticleList();
+        memberArticleList.add(article);
+        member.setArticle(memberArticleList);
         article.setData(request.getData());
 
 
@@ -104,6 +106,8 @@ public class ClubArticleApiController {
 
         return  CreateArticleResponseDto.builder()
                 .id(id)
+                .memberId(memberId)
+                .memberName(member.getName())
                 .data(article.getData())
                 .createDate(article.getCreatedDate())
                 .modifiedDate(article.getModifiedDate())

@@ -68,6 +68,10 @@ public class Member extends BaseTimeEntity implements UserDetails {
     }
 
 
+    public void setArticle(List<Article> articleList) {
+        articleList.forEach(article -> article.setMember(this));
+        this.articleList = articleList;
+    }
 
     public void setInterestList(List<StudentInterest> interestList) {
         this.interestList = interestList;

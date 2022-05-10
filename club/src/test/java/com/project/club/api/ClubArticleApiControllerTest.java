@@ -1,5 +1,8 @@
 package com.project.club.api;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.project.club.api.dto.CreateArticleRequestDto;
+import com.project.club.api.dto.ImageFileDto;
 import com.project.club.domain.*;
 import com.project.club.service.ArticleService;
 import com.project.club.service.ClubBoardService;
@@ -13,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -21,13 +25,16 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import org.hamcrest.Matchers;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -82,7 +89,62 @@ public class ClubArticleApiControllerTest {
     @Test
     @WithMockUser
     public void 게시글_등록된다() throws Exception{
-        
+        //given
+        Member member = new Member();
+        member.setName("김정훈");
+        member.setId(201820783L);
+        memberService.join(member);
+
+        Club club = new Club();
+        club.setName("호완");
+        clubService.join(club);
+        ClubBoard clubBoard = new ClubBoard();
+        clubBoard.setClub(club);
+
+        Long clubBoardId = clubBoardService.join(clubBoard);
+
+        ImageFile imageFile = ImageFile.builder()
+                .fileName("abc")
+                .fileSize(256L)
+                .fileType("jpg")
+                .filePath("/abc")
+                .build();
+        List<ImageFile> imageFileList = new ArrayList<>();
+        imageFileList.add(imageFile);
+
+        List<ImageFileDto> imageFileDtoList = imageFileList.stream().map(m-> ImageFileDto.builder()
+                .fileName(m.getFileName())
+                .filePath(m.getFilePath())
+                .fileType(m.getFileType())
+                .fileSize(m.getFileSize())
+                .build()).collect(Collectors.toList());
+
+
+        String data = "TEST";
+
+        String url = "http://localhost:8081" +   "/api/clubs/articles/" + clubBoardId.toString();
+
+        CreateArticleRequestDto requestDto = new CreateArticleRequestDto(data, imageFileDtoList);
+        //when, then
+        LocalDateTime now = LocalDateTime.now();
+
+        mvc.perform(post(url)
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .param("memberId", member.getId().toString() )
+                        .content(new ObjectMapper().writeValueAsString(requestDto)))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.memberId").value(member.getId()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.memberName").value(member.getName()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data").value(data));
+
+        List<Article> articleList = articleService.findByClubBoard(clubBoard);
+
+        Article postArticle = articleList.get(0);
+
+
+        assertThat(postArticle.getData()).isEqualTo(data);
+        assertThat(postArticle.getCreatedDate()).isAfter(now);
+
     }
     @Test
     @WithMockUser
