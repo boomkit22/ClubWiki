@@ -50,4 +50,13 @@ public class ClubBoard{
         this.articleList = articleList;
         this.club = club;
     }
+
+    public boolean updateLock(){
+        this.setBLock(!this.isBLock());
+
+        return this.isBLock();
+    }
+
+
+
 }

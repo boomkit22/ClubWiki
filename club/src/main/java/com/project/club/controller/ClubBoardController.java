@@ -13,10 +13,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -34,7 +31,7 @@ public class ClubBoardController {
 
     //user가 소속되어있는 클럽의 클럽보드 list를 보여줌
     @GetMapping("/clubBoards")
-    public String intoClub(@AuthenticationPrincipal Member member, Model model, @RequestParam(name="clubId") Long id)
+    public String clubBoardList(@AuthenticationPrincipal Member member, Model model, @RequestParam(name="clubId") Long id)
     {
         Club club = clubService.findOne(id);
 
@@ -48,7 +45,7 @@ public class ClubBoardController {
     }
 
     @GetMapping("/clubBoards/{clubBoardId}")
-    public String move(Model model, @PathVariable("clubBoardId") Long clubBoardId)
+    public String clubArticle(Model model, @PathVariable("clubBoardId") Long clubBoardId)
     {
 //        model.addAttribute("clubBoardId",clubBoardId);
 
@@ -106,7 +103,18 @@ public class ClubBoardController {
         return url;
     }
 
+    @GetMapping("/clubBoards/lock/{clubBoardId}")
+    public String lock(Model model, @PathVariable("clubBoardId") Long clubBoardId)
+    {
 
+        ClubBoard clubBoard = clubBoardService.findById(clubBoardId);
+        clubBoard.setBLock(!clubBoard.isBLock());
+        clubBoardService.join(clubBoard);
+
+        Long clubId = clubBoard.getClub().getId();
+
+        return "redirect:/clubBoards?  clubId=" + clubId.toString();
+    }
 
 
 }

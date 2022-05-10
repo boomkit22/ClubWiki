@@ -34,8 +34,15 @@ public class Article extends BaseTimeEntity {
 
     private String data;
 
+    //fetchType = Lazy (OneToMany 기본)
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
     private List<ImageFile> imageFileList = new ArrayList<>();
+
+
+    public void setImageFile(List<ImageFile> imageFileList) {
+        imageFileList.forEach(iamgeFile -> iamgeFile.setArticle(this));
+        this.imageFileList = imageFileList;
+    }
 
     public Article(){
 
@@ -48,5 +55,14 @@ public class Article extends BaseTimeEntity {
         this.member = member;
         this.data = data;
     }
+
+    @Builder
+    public Article(ClubBoard clubBoard, Member member, String data, List<ImageFile> imageFileList) {
+        this.clubBoard = clubBoard;
+        this.member = member;
+        this.data = data;
+        this.imageFileList = imageFileList;
+    }
+
 
 }

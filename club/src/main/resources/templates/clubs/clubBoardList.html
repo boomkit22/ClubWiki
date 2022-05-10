@@ -11,7 +11,7 @@
 
             <td th:text="${clubId}"></td>
             <div>
-                <form role="form" th:action="@{/clubBoards/new/__${clubId}__}"  method="get"/>
+                <form role="form" th:action="@{/clubBoards/new/__${clubId}__}"  method="get">
                 <td>
                     <button type="submit" class="btn btn-primary">게시판 생성</button>
                 </td>
@@ -21,19 +21,27 @@
             <tr>
                 <th>이름</th>
                 <th>이동</th>
+                <th>잠금</th>
             </tr>
             </thead>
 
             <tbody>
             <tr th:each="clubBoard : ${clubBoards}">
-
                 <td th:text="${clubBoard.name}"></td>
 
-                <form role="form" th:action="@{/clubBoards/__${clubBoard.id}__}" method="get"/>
                 <td>
+                <form role="form" th:action="@{/clubBoards/__${clubBoard.id}__}" method="get">
+
                     <button type="submit" class="btn btn-primary">이동</button>
-                </td>
+
                 </form>
+                </td>
+
+                <td>
+                <form role="form" th:action="@{/clubBoards/lock/__${clubBoard.id}__}" method="get">
+                    <button type= "submit" class="btn btn-outline-dark" th:text="${clubBoard.bLock}"></button>
+                </form>
+                </td>
 
 
             </tr>

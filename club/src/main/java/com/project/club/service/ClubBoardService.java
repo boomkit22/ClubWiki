@@ -36,6 +36,12 @@ public class ClubBoardService {
         return clubBoardRepository.findByClub(club);
     }
 
+    @Transactional
+    public void deleteAll(){
+
+        clubBoardRepository.deleteAll();
+    }
+
     public ClubBoard findById(Long clubBoardId){
 
         Optional<ClubBoard> byId = clubBoardRepository.findById(clubBoardId);
@@ -47,6 +53,17 @@ public class ClubBoardService {
             return null;
         }
 
+    }
+
+    public List<ClubBoard> findAll(){
+        return clubBoardRepository.findAll();
+    }
+
+    @Transactional
+    public boolean updateLock(Long clubBoardId){
+
+        ClubBoard clubBoard = this.findById(clubBoardId);
+        return clubBoard.updateLock();
     }
 
 

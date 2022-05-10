@@ -71,4 +71,8 @@ public class ArticleService {
 //        articleRepository.
 //    }
 
+    public void deleteAll(){
+        articleRepository.deleteAll();
+    }
+
 }

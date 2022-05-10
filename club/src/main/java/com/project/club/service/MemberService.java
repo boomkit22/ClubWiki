@@ -54,6 +54,11 @@ public class MemberService implements UserDetailsService {
         return member.getId();
     }
 
+    @Transactional
+    public void deleteAll(){
+        memberRepository.deleteAll();
+    }
+
 //    private void validateDuplicateMember(Member member) {
 //        List<Member> findMembers = memberRepository.findByEmail(member.getEmail());
 //        if(!findMembers.isEmpty()){

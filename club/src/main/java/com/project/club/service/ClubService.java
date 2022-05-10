@@ -55,5 +55,10 @@ public class ClubService {
         return club.getId();
     }
 
+    @Transactional
+    public void deleteAll(){
+
+        clubRepository.deleteAll();
+    }
 
 }

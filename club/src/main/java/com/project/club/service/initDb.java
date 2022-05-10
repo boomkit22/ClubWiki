@@ -17,9 +17,9 @@ public class initDb {
     private final InitService initService;
     @PostConstruct
     public void Init(){
-//        return;
-        initService.memberInit();
-        initService.clubInit();
+        return;
+//        initService.memberInit();
+//        initService.clubInit();
     }
 
     @Component

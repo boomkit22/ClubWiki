@@ -6,14 +6,20 @@ package com.project.club.api;
 //article 읽기
 //article 수정
 
+import com.project.club.api.dto.CreateArticleRequestDto;
+import com.project.club.api.dto.CreateArticleResponseDto;
+import com.project.club.api.dto.ImageFileDto;
 import com.project.club.controller.ArticleCategory;
 import com.project.club.domain.Article;
 import com.project.club.domain.ClubBoard;
+import com.project.club.domain.ImageFile;
 import com.project.club.domain.Member;
 import com.project.club.service.ArticleService;
 import com.project.club.service.ClubBoardService;
+import com.project.club.service.ImageFileService;
 import com.project.club.service.MemberService;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,8 +42,9 @@ public class ClubArticleApiController {
     private final ClubBoardService clubBoardService;
     private final MemberService memberService;
 
+    private final ImageFileService imageFileService;
+
     //위키 게시판 한개 속 전체 게시글 내용 불러오기
-    //todo 사진
     @GetMapping("/api/clubs/allArticles/{clubBoardId}")
     public Result allArticleList(@PathVariable("clubBoardId") Long clubBoardId)
     {
@@ -48,6 +55,65 @@ public class ClubArticleApiController {
 
         return new Result(collect.size(),collect);
     }
+    @PostMapping("/api/clubs/articles/{clubBoardId}")
+    public CreateArticleResponseDto saveArticle(@PathVariable("clubBoardId") Long clubBoardId,
+                                                @RequestParam(name="memberId") Long memberId,
+                                                @RequestBody @Valid CreateArticleRequestDto request)
+    {
+        //todo
+        //멤버나 clubBoard가 null인 경우 처리
+
+        Article article = new Article();
+        ClubBoard clubBoard = clubBoardService.findById(clubBoardId);
+
+        Member member = memberService.findOne(memberId);
+
+        if(member!= null){
+            log.info(member.getName());
+        } else if (member == null)
+        {
+            log.info(memberId.toString());
+            log.info("member was null");
+        }
+
+        article.setClubBoard(clubBoard);
+        article.setMember(member);
+        article.setData(request.getData());
+
+
+        if(request.getImageFileList().isEmpty())
+        {
+
+        }
+        else
+        {
+            List<ImageFileDto> imageFileDtoList = request.getImageFileList();
+            List<ImageFile> imageFileList = imageFileDtoList.stream().map(m -> ImageFile.builder()
+                    .fileName(m.getFileName())
+                    .filePath(m.getFilePath())
+                    .fileType(m.getFileType())
+                    .fileSize(m.getFileSize())
+                    .build())
+                    .collect(Collectors.toList());
+
+
+             article.setImageFile(imageFileList);
+        }
+
+        Long id = articleService.save(article);
+
+        return  CreateArticleResponseDto.builder()
+                .id(id)
+                .data(article.getData())
+                .createDate(article.getCreatedDate())
+                .modifiedDate(article.getModifiedDate())
+                .imageFileList(article.getImageFileList()
+                        .stream().map(m-> new ImageFileDto(m.getFilePath(),
+                                m.getFileName(),m.getFileType(),m.getFileSize())).collect(Collectors.toList()))
+                .build();
+
+    }
+
 
 //    @GetMapping("/api/clubs/lockedArticles/{clubBoardId}")
 //    public Result lockedArticleList(@PathVariable("clubBoardId") Long clubBoardId
@@ -70,56 +136,27 @@ public class ClubArticleApiController {
 //        return new Result(collect.size(),collect);
 //    }
 
-
-
-
     @GetMapping("/api/clubs/articles/{articleId}")
     public ArticleDto article(@PathVariable("articleId") Long articleId)
     {
         Article article = articleService.findById(articleId);
+
         ArticleDto articleDto = new ArticleDto(article.getMember().getName()
-        ,article.getData());
+        ,article.getData(),article.getImageFileList().stream().map(m-> ImageFileDto.builder()
+                .fileName(m.getFileName())
+                .filePath(m.getFilePath())
+                .fileSize(m.getFileSize())
+                .fileType(m.getFileType())
+                .build()
+                ).collect(Collectors.toList())
+                ,article.getCreatedDate()
+                ,article.getModifiedDate());
 
         return articleDto;
-    }
 
-    @PostMapping("/api/clubs/articles/{clubBoardId}")
-    public CreateArticleResponse saveArticle(@PathVariable("clubBoardId") Long clubBoardId,
-                                             @RequestParam(name="memberId") Long memberId,
-                                             @RequestBody @Valid CreateArticleRequest request)
-    {
-        //todo
-        //멤버나 clubBoard가 null인 경우 처리
-
-        Article article = new Article();
-        ClubBoard clubBoard = clubBoardService.findById(clubBoardId);
-
-        Member member = memberService.findOne(memberId);
-        if(member!= null){
-            log.info(member.getName());
-        } else if (member == null)
-        {
-            log.info(memberId.toString());
-            log.info("member was null");
-        }
-
-        article.setClubBoard(clubBoard);
-        article.setMember(member);
-        article.setData(request.getData());
-        Long id = articleService.save(article);
-
-        return new CreateArticleResponse(id);
     }
 
 
-//    private String writer;
-//    private String title;
-//    private String intro;
-//    private String data;
-//    private String category;
-//    private boolean bLock;
-//    private String oneLineReview;
-//    private LocalDateTime writeTime;
 
     @Data
     @AllArgsConstructor
@@ -140,41 +177,10 @@ public class ClubArticleApiController {
     static class ArticleDto{
         private String memberName;
         private String data;
+        private List<ImageFileDto> imageFileList;
+        private LocalDateTime createdDate;
+        private LocalDateTime modifiedDate;
     }
 
-//    //update
-//    @PutMapping("/api/v2/members/{id}")
-//    public UpdateMemberResponse updateMemberV2(@PathVariable("id") Long id,
-//                                               @RequestBody @Valid UpdateMemberRequest request){
-//
-//
-//        memberService.update(id, request.getName());
-//        Member findMember = memberService.findOne(id);
-//        return new UpdateMemberResponse(findMember.getId(), findMember.getName());
-//    }
-//}
-
-    @Data
-    static class CreateArticleResponse{
-        private Long id;
-
-        public CreateArticleResponse(Long id)
-        {
-            this.id = id;
-        }
-    }
-
-    @Data
-    static class CreateArticleRequest{
-        private String data;
-        public CreateArticleRequest()
-        {
-
-        }
-
-        public CreateArticleRequest(String data) {
-            this.data = data;
-        }
-    }
 
 }
