@@ -78,9 +78,81 @@ public class ClubArticleApiControllerTest {
         assertThat(port).isGreaterThan(0);
     }
 
-    //todo
-    //전체 게시글 조회
-    //게시글 등록
+
+    @Test
+    @WithMockUser
+    public void 게시글_등록된다() throws Exception{
+        
+    }
+    @Test
+    @WithMockUser
+    public void 전체게시글_조회된다() throws Exception{
+        //given
+        Member member = new Member();
+        member.setName("김정훈");
+        member.setId(201820783L);
+        memberService.join(member);
+
+        Club club = new Club();
+        club.setName("호완");
+        clubService.join(club);
+        ClubBoard clubBoard = new ClubBoard();
+        clubBoard.setClub(club);
+        Long clubBoardId = clubBoardService.join(clubBoard);
+
+        ImageFile imageFile = ImageFile.builder()
+                .fileName("abc")
+                .fileSize(256L)
+                .fileType("jpg")
+                .filePath("/abc")
+                .build();
+
+        List<ImageFile> imageFileList = new ArrayList<>();
+        imageFileList.add(imageFile);
+
+        ImageFile imageFile2 = ImageFile.builder()
+                .fileName("abc")
+                .fileSize(256L)
+                .fileType("jpg")
+                .filePath("/abc")
+                .build();
+
+
+        List<ImageFile> imageFileList2 = new ArrayList<>();
+        imageFileList2.add(imageFile2);
+
+        String data = "TEST";
+
+
+        Article article = Article.builder()
+                .clubBoard(clubBoard)
+                .member(member)
+                .data(data)
+                .build();
+
+        article.setImageFile(imageFileList);
+
+        String data2 = "TEST2";
+
+        Article article2 = Article.builder()
+                .clubBoard(clubBoard)
+                .member(member)
+                .data(data2)
+                .build();
+        article2.setImageFile(imageFileList2);
+
+        articleService.join(article);
+        articleService.join(article2);
+        String url = "http://localhost:8081" +   "/api/clubs/allArticles/" + clubBoardId.toString();
+
+        //when ,then
+        mvc.perform(get(url))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.count").value(2))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].data").value(data))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data[1].data").value(data2));
+    }
+
     @Test
     @WithMockUser
     public void 한개게시글_조회된다() throws Exception{
@@ -118,10 +190,8 @@ public class ClubArticleApiControllerTest {
                 .clubBoard(clubBoard)
                 .member(member)
                 .data(data)
-                .imageFileList(imageFileList)
                 .build();
-
-        imageFile.setArticle(article);
+        article.setImageFile(imageFileList);
 
         Long articleId = articleService.join(article);
 
@@ -134,11 +204,6 @@ public class ClubArticleApiControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data").value(data))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.imageFileList[0].fileName").value("abc"));
 //                .andExpect(MockMvcResultMatchers.jsonPath("$.createdDate", Matchers.greaterThanOrEqualTo(article.getCreatedDate())));
-
-
-
-
-
     }
 
 
