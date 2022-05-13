@@ -75,17 +75,17 @@ public class ClubBoardApiControllerTest {
     @WithMockUser
     public void ClubBoard_등록된다() throws Exception{
         //given
-        String name = "name";
-        String intro = "intro";
-        String oneLineReview = "oneLineReview";
+        String wikiName = "name";
+        String wikiIntro = "intro";
+        String cpAnnouncement = "oneLineReview";
         String boardCategory = "boardCategory";
-        boolean bLock = false;
+        boolean isLock = false;
         CreateClubBoardRequestDto request = CreateClubBoardRequestDto.builder()
-                .name(name)
-                .intro(intro)
-                .oneLineReview(oneLineReview)
+                .wikiName(wikiName)
+                .wikiIntro(wikiIntro)
+                .cpAnnouncement(cpAnnouncement)
                 .boardCategory(boardCategory)
-                .bLock(bLock)
+                .isLock(isLock)
                 .build();
         Club club = new Club();
         club.setName("Test Club");
@@ -167,6 +167,12 @@ public class ClubBoardApiControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(String.valueOf(!bLock)));
 
+        mvc.perform(put(url))
+                .andExpect(status().isOk())
+                .andExpect(content().string(String.valueOf(bLock)));
         }
+
+
+
 
 }

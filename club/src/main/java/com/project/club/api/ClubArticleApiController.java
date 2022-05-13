@@ -46,16 +46,58 @@ public class ClubArticleApiController {
 
     //위키 게시판 한개 속 전체 게시글 내용 불러오기
     @GetMapping("/api/clubs/allArticles/{clubBoardId}")
-    public Result allArticleList(@PathVariable("clubBoardId") Long clubBoardId)
+    public WikiPageDto allArticleList(@PathVariable("clubBoardId") Long clubBoardId)
     {
         ClubBoard clubBoard = clubBoardService.findById(clubBoardId);
         List<Article> articleList = articleService.findByClubBoard(clubBoard);
-        List<ArticleListDto> collect = articleList.stream().map(m-> new ArticleListDto(m.getData(), m.getCreatedDate()
+
+        List<ArticleListDto2> collect = articleList.stream().map(m-> new ArticleListDto2(m.getId(), m.getData(), Long.valueOf(m.getImageFileList().size())
+                ,(m.getImageFileList().stream().map(i-> new ImageFileDto(i.getFilePath(),i.getFileName(), i.getFileType(), i.getFileSize())).collect(Collectors.toList()))
+                , m.getCreatedDate()
              )).collect(Collectors.toList());
 
-        return new Result(collect.size(),collect);
+        String wikiName = clubBoard.getName();
+        String wikiIntro = clubBoard.getIntro();
+        String cpAnnouncement = clubBoard.getOneLineReview();
+        boolean isLock = clubBoard.isBLock();
+        Long articleCount = Long.valueOf(articleList.size());
+
+
+        return WikiPageDto.builder()
+                .wikiName(wikiName)
+                .wikiIntro(wikiIntro)
+                .cpAnnouncement(cpAnnouncement)
+                .isLock(isLock)
+                .articleCount(articleCount)
+                .articleList(collect)
+                .build();
+
     }
-    @PostMapping("/api/clubs/articles/{clubBoardId}")
+
+    @Data
+    @AllArgsConstructor
+    static class ArticleListDto2{
+        private Long articleId;
+        private String text;
+        private Long imageCount;
+        private List<ImageFileDto> imageFileList;
+        private LocalDateTime createdDate;
+    }
+
+    @Builder
+    @Data
+    @AllArgsConstructor
+    static class WikiPageDto{
+        private String wikiName;
+        private String wikiIntro;
+        private String cpAnnouncement;
+        private boolean isLock;
+        private Long articleCount;
+        private List<ArticleListDto2> articleList;
+    }
+
+
+        @PostMapping("/api/clubs/articles/{clubBoardId}")
     public CreateArticleResponseDto saveArticle(@PathVariable("clubBoardId") Long clubBoardId,
                                                 @RequestParam(name="memberId") Long memberId,
                                                 @RequestBody @Valid CreateArticleRequestDto request)
@@ -155,9 +197,7 @@ public class ClubArticleApiController {
                 ).collect(Collectors.toList())
                 ,article.getCreatedDate()
                 ,article.getModifiedDate());
-
         return articleDto;
-
     }
 
 
@@ -169,6 +209,9 @@ public class ClubArticleApiController {
         private T data;
     }
 
+
+
+
     @Data
     @AllArgsConstructor
     static class ArticleListDto{
@@ -179,11 +222,14 @@ public class ClubArticleApiController {
     @Data
     @AllArgsConstructor
     static class ArticleDto{
+
         private String memberName;
         private String data;
         private List<ImageFileDto> imageFileList;
+
         private LocalDateTime createdDate;
         private LocalDateTime modifiedDate;
+
     }
 
 

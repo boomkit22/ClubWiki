@@ -268,5 +268,9 @@ public class ClubArticleApiControllerTest {
 //                .andExpect(MockMvcResultMatchers.jsonPath("$.createdDate", Matchers.greaterThanOrEqualTo(article.getCreatedDate())));
     }
 
+    //todo
+    //게시글 삭제
+    //게시글 수정
+
 
 }

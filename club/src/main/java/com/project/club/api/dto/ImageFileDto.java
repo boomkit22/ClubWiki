@@ -19,4 +19,5 @@ public class ImageFileDto {
         this.fileType = fileType;
         this.fileSize = fileSize;
     }
+
 }

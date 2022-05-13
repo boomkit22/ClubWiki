@@ -7,20 +7,19 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class CreateClubBoardRequestDto {
-    private String name;
-    private String intro;
-    private String oneLineReview;
+    private String wikiName;
+    private String wikiIntro;
+    private String cpAnnouncement;
     private String boardCategory;
-    private boolean bLock;
-
+    private boolean isLock;
 
 
     @Builder
-    public CreateClubBoardRequestDto(String name, String intro, String oneLineReview, String boardCategory, boolean bLock) {
-        this.name = name;
-        this.intro = intro;
-        this.oneLineReview = oneLineReview;
+    public CreateClubBoardRequestDto(String wikiName, String wikiIntro, String cpAnnouncement, String boardCategory, boolean isLock) {
+        this.wikiName = wikiName;
+        this.wikiIntro = wikiIntro;
+        this.cpAnnouncement = cpAnnouncement;
         this.boardCategory = boardCategory;
-        this.bLock = bLock;
+        this.isLock = isLock;
     }
 }

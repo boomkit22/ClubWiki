@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,34 +28,35 @@ public class ClubBoardApiController {
     private final ArticleService articleService;
 
     @PostMapping("/api/clubs/clubBoard/{clubId}")
-    public CreateClubBoardResponse saveClubBoard(@PathVariable("clubId") Long clubId
+    public CreateClubBoardResponse saveClubBoard(HttpServletRequest httpServletRequest, @PathVariable("clubId") Long clubId
     , @RequestBody CreateClubBoardRequestDto request)
     {
         Club club = clubService.findOne(clubId);
 
-        if(club==null){
+        if(club==null)
+        {
             log.warn("saveClubBoard club was Null clubId = ",clubId);
         }
 
         ClubBoard clubBoard = ClubBoard.builder()
                 .club(club)
-                .name(request.getName())
-                .intro(request.getIntro())
-                .oneLineReview(request.getOneLineReview())
+                .name(request.getWikiName())
+                .intro(request.getWikiIntro())
+                .oneLineReview(request.getCpAnnouncement())
                 .boardCategory(request.getBoardCategory())
-                .bLock(request.isBLock())
+                .bLock(request.isLock())
                 .build();
 
         Long id = clubBoardService.join(clubBoard);
 
-        return new CreateClubBoardResponse(id);
+        return new CreateClubBoardResponse("위키 게시판 생성 완료");
 
     }
 
     @PutMapping("/api/clubs/clubBoard/{clubBoardId}")
-    public boolean Lock(@PathVariable("clubBoardId") Long clubBoardId)
+    public LockResponseDto Lock(@PathVariable("clubBoardId") Long clubBoardId)
     {
-        return clubBoardService.updateLock(clubBoardId);
+        return new LockResponseDto(clubBoardService.updateLock(clubBoardId));
     }
 
     @GetMapping("/api/clubs/clubBoard/{clubId}")
@@ -62,13 +64,21 @@ public class ClubBoardApiController {
 
         Club club = clubService.findOne(clubId);
         List<ClubBoard> clubBoardList = clubBoardService.findByClub(club);
-        List<ClubBoardListDto> collect = clubBoardList.stream().map(m -> new ClubBoardListDto(m.getName(), m.getIntro(), m.getOneLineReview(), m.getBoardCategory(), m.isBLock()))
+        List<ClubBoardListDto> collect = clubBoardList.stream().map(m -> new ClubBoardListDto(m.getId(), m.getName()))
                 .collect(Collectors.toList());
 
         return new Result(collect.size(), collect);
 
     }
 
+    @Data
+    static class LockResponseDto{
+        private boolean isLock;
+
+        public LockResponseDto(boolean isLock){
+            this.isLock = isLock;
+        }
+    }
 
 
 
@@ -82,20 +92,18 @@ public class ClubBoardApiController {
     @Data
     @AllArgsConstructor
     static class ClubBoardListDto{
-        private String name;
-        private String intro;
-        private String oneLineReview;
-        private String boardCategory;
-        private boolean bLock;
+        private Long wikiBoardId;
+        private String wikiName;
     }
 
     @Data
     static class CreateClubBoardResponse{
-        private Long id;
+        private String msg;
 
-        public CreateClubBoardResponse(Long id) {
-            this.id = id;
+        public CreateClubBoardResponse(String msg) {
+            this.msg = msg;
         }
+
     }
 
 
