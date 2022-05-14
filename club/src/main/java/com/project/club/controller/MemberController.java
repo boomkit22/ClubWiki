@@ -1,5 +1,6 @@
 package com.project.club.controller;
 
+import com.project.club.controller.form.MemberForm;
 import com.project.club.domain.StudentInterest;
 import com.project.club.domain.Member;
 import com.project.club.service.MemberService;

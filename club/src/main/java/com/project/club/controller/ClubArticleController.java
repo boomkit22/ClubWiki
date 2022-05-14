@@ -1,12 +1,12 @@
 package com.project.club.controller;
 
+import com.project.club.controller.form.ArticleForm;
 import com.project.club.domain.Article;
 import com.project.club.domain.ClubBoard;
 import com.project.club.domain.Member;
 import com.project.club.service.ArticleService;
 import com.project.club.service.ClubBoardService;
 import com.project.club.service.MemberService;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
-import java.time.LocalDateTime;
 
 @Controller
 @RequiredArgsConstructor

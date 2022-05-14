@@ -1,10 +1,10 @@
 package com.project.club.controller;
 
 import com.project.club.controller.dto.UserClubDto;
+import com.project.club.controller.form.ClubForm;
 import com.project.club.domain.*;
 import com.project.club.service.ClubMemberService;
 import com.project.club.service.ClubService;
-import com.project.club.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

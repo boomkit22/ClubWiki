@@ -58,6 +58,7 @@ public class ClubRepositoryTest {
         //given
         LocalDateTime now = LocalDateTime.now();
 
+
         String name = "호완";
         String introduction = "복싱동아리";
         String location = "구학생회관210호";

@@ -1,4 +1,4 @@
-package com.project.club.controller;
+package com.project.club.controller.category;
 
 public enum ArticleCategory {
     Sports("운동"),

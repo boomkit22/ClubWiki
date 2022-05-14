@@ -1,4 +1,4 @@
-package com.project.club.controller;
+package com.project.club.controller.form;
 
 import com.project.club.domain.ClubInterest;
 import com.project.club.domain.StudentInterest;

@@ -1,15 +1,11 @@
 package com.project.club.domain;
 
 
-import com.project.club.controller.ArticleCategory;
-import com.project.club.service.MemberService;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 

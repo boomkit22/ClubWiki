@@ -1,4 +1,4 @@
-package com.project.club.controller;
+package com.project.club.controller.form;
 
 import lombok.Getter;
 import lombok.Setter;

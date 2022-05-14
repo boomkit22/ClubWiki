@@ -1,5 +1,6 @@
 package com.project.club.controller;
 
+import com.project.club.controller.form.ClubBoardForm;
 import com.project.club.domain.Article;
 import com.project.club.domain.Club;
 import com.project.club.domain.ClubBoard;

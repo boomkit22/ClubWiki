@@ -59,26 +59,21 @@ public class ClubBoardApiController {
     }
 
     @GetMapping("/api/clubs/clubBoard/{clubId}")
-    public ResultWithCount clubBoardList(@PathVariable("clubId") Long clubId){
+    public ClubBoardListResponseWithCount clubBoardList(@PathVariable("clubId") Long clubId){
 
         Club club = clubService.findOne(clubId);
         List<ClubBoard> clubBoardList = clubBoardService.findByClub(club);
         List<ClubBoardListDto> collect = clubBoardList.stream().map(m -> new ClubBoardListDto(m.getId(), m.getName()))
                 .collect(Collectors.toList());
 
-        return new ResultWithCount(collect.size(), collect);
+        return new ClubBoardListResponseWithCount(collect.size(), collect);
     }
 
     @Data
     @AllArgsConstructor
-    static class ResultWithCount<T>{
+    static class ClubBoardListResponseWithCount<T>{
         private int count;
         private T data;
     }
-
-
-
-
-
 
 }
