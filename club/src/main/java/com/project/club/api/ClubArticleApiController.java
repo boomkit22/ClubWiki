@@ -68,6 +68,7 @@ public class ClubArticleApiController {
                 .articleCount(articleCount)
                 .articleList(collect)
                 .build();
+
     }
 
         @PostMapping("/api/clubs/articles/{clubBoardId}")
@@ -75,9 +76,6 @@ public class ClubArticleApiController {
                                                 @RequestParam(name="memberId") Long memberId,
                                                 @RequestBody @Valid CreateArticleRequestDto request)
     {
-        //todo
-        //멤버나 clubBoard가 null인 경우 처리
-
         Article article = new Article();
         ClubBoard clubBoard = clubBoardService.findById(clubBoardId);
 
@@ -144,15 +142,6 @@ public class ClubArticleApiController {
 
         return articleDto;
     }
-
-    @Data
-    @AllArgsConstructor
-    static class Result<T>{
-        private int count;
-        private T data;
-    }
-
-
 }
 
 //    @GetMapping("/api/clubs/lockedArticles/{clubBoardId}")

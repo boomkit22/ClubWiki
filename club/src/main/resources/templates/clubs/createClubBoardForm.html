@@ -41,7 +41,7 @@ border-color: #bd2130;
         <div class="form-group">
             <label th:for="boardCategory">카테고리</label>
             <select th:field="*{boardCategory}">
-                <option th:each="category : ${T(com.project.club.controller.BoardCategory).values()}"
+                <option th:each="category : ${T(com.project.club.controller.category.BoardCategory).values()}"
                         th:value="${category}" th:text="${category.displayValue}">
                 </option>
             </select>

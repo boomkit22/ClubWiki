@@ -158,14 +158,14 @@ public class ClubBoardApiControllerTest {
                 .bLock(bLock)
                 .build();
         Long clubBoardId = clubBoardService.join(clubBoard);
-        String url = "http://localhost:8081" +   "/api/clubs/clubBoard/" + clubBoardId.toString();
+        String url = "http://localhost:8081" +   "/api/clubs/clubBoard/lock/" + clubBoardId.toString();
 
         //when, then
-        mvc.perform(put(url))
+        mvc.perform(post(url))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.lock").value(true));
 
-        mvc.perform(put(url))
+        mvc.perform(post(url))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.lock").value(false));
         }

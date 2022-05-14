@@ -33,7 +33,6 @@ public class ClubService {
     public Club findOne(Long id){
         Optional<Club> byId = clubRepository.findById(id);
 
-
         if(byId.isPresent()){
             return byId.get();
         }

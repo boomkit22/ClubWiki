@@ -52,7 +52,7 @@ public class ClubBoardApiController {
         return new CreateClubBoardResponseDto("위키 게시판 생성 완료");
     }
 
-    @PutMapping("/api/clubs/clubBoard/{clubBoardId}")
+    @PostMapping("/api/clubs/clubBoard/lock/{clubBoardId}")
     public LockResponseDto Lock(@PathVariable("clubBoardId") Long clubBoardId)
     {
         return new LockResponseDto(clubBoardService.updateLock(clubBoardId));

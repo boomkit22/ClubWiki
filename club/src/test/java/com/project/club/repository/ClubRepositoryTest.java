@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -56,7 +57,7 @@ public class ClubRepositoryTest {
     @Test
     public void 클럽BaseTimeEntity_등록(){
         //given
-        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime now = LocalDateTime.of(2022, 5,14,20,30);
 
 
         String name = "호완";

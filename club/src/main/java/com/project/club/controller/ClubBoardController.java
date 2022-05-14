@@ -104,7 +104,7 @@ public class ClubBoardController {
         return url;
     }
 
-    @GetMapping("/clubBoards/lock/{clubBoardId}")
+    @PostMapping("/clubBoards/lock/{clubBoardId}")
     public String lock(Model model, @PathVariable("clubBoardId") Long clubBoardId)
     {
 
@@ -114,7 +114,7 @@ public class ClubBoardController {
 
         Long clubId = clubBoard.getClub().getId();
 
-        return "redirect:/clubBoards?  clubId=" + clubId.toString();
+        return "redirect:/clubBoards?clubId=" + clubId.toString();
     }
 
 
