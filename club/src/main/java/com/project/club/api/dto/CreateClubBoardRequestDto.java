@@ -6,13 +6,13 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class CreateClubBoardRequestDto {
+public class CreateClubBoardRequestDto
+{
     private String wikiName;
     private String wikiIntro;
     private String cpAnnouncement;
     private String boardCategory;
     private boolean isLock;
-
 
     @Builder
     public CreateClubBoardRequestDto(String wikiName, String wikiIntro, String cpAnnouncement, String boardCategory, boolean isLock) {
@@ -22,4 +22,5 @@ public class CreateClubBoardRequestDto {
         this.boardCategory = boardCategory;
         this.isLock = isLock;
     }
+
 }

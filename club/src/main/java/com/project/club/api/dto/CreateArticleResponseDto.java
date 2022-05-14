@@ -14,12 +14,9 @@ public class CreateArticleResponseDto {
     private String memberName;
     private String data;
     private int imageNumber;
-
     private List<ImageFileDto> imageFileList;
-
     private LocalDateTime createDate;
     private LocalDateTime modifiedDate;
-
 
     @Builder
     public CreateArticleResponseDto(Long id, Long memberId, String memberName, String data, int imageNumber, List<ImageFileDto> imageFileList, LocalDateTime createDate, LocalDateTime modifiedDate) {

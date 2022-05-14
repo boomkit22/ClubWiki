@@ -6,10 +6,7 @@ package com.project.club.api;
 //article 읽기
 //article 수정
 
-import com.project.club.api.dto.CreateArticleRequestDto;
-import com.project.club.api.dto.CreateArticleResponseDto;
-import com.project.club.api.dto.ImageFileDto;
-import com.project.club.controller.ArticleCategory;
+import com.project.club.api.dto.*;
 import com.project.club.domain.Article;
 import com.project.club.domain.ClubBoard;
 import com.project.club.domain.ImageFile;
@@ -51,7 +48,7 @@ public class ClubArticleApiController {
         ClubBoard clubBoard = clubBoardService.findById(clubBoardId);
         List<Article> articleList = articleService.findByClubBoard(clubBoard);
 
-        List<ArticleListDto2> collect = articleList.stream().map(m-> new ArticleListDto2(m.getId(), m.getData(), Long.valueOf(m.getImageFileList().size())
+        List<ArticleListDto> collect = articleList.stream().map(m-> new ArticleListDto(m.getId(), m.getData(), Long.valueOf(m.getImageFileList().size())
                 ,(m.getImageFileList().stream().map(i-> new ImageFileDto(i.getFilePath(),i.getFileName(), i.getFileType(), i.getFileSize())).collect(Collectors.toList()))
                 , m.getCreatedDate()
              )).collect(Collectors.toList());
@@ -71,31 +68,7 @@ public class ClubArticleApiController {
                 .articleCount(articleCount)
                 .articleList(collect)
                 .build();
-
     }
-
-    @Data
-    @AllArgsConstructor
-    static class ArticleListDto2{
-        private Long articleId;
-        private String text;
-        private Long imageCount;
-        private List<ImageFileDto> imageFileList;
-        private LocalDateTime createdDate;
-    }
-
-    @Builder
-    @Data
-    @AllArgsConstructor
-    static class WikiPageDto{
-        private String wikiName;
-        private String wikiIntro;
-        private String cpAnnouncement;
-        private boolean isLock;
-        private Long articleCount;
-        private List<ArticleListDto2> articleList;
-    }
-
 
         @PostMapping("/api/clubs/articles/{clubBoardId}")
     public CreateArticleResponseDto saveArticle(@PathVariable("clubBoardId") Long clubBoardId,
@@ -140,7 +113,6 @@ public class ClubArticleApiController {
                     .build())
                     .collect(Collectors.toList());
 
-
              article.setImageFile(imageFileList);
         }
 
@@ -154,12 +126,34 @@ public class ClubArticleApiController {
                 .createDate(article.getCreatedDate())
                 .modifiedDate(article.getModifiedDate())
                 .imageFileList(article.getImageFileList()
-                        .stream().map(m-> new ImageFileDto(m.getFilePath(),
-                                m.getFileName(),m.getFileType(),m.getFileSize())).collect(Collectors.toList()))
+                        .stream().map(ImageFileDto::new).collect(Collectors.toList()))
                 .build();
 
     }
 
+    @GetMapping("/api/clubs/articles/{articleId}")
+    public ArticleDto article(@PathVariable("articleId") Long articleId)
+    {
+        Article article = articleService.findById(articleId);
+
+        ArticleDto articleDto = new ArticleDto(article.getMember().getName()
+        ,article.getData(),article.getImageFileList().stream().map(ImageFileDto::new
+                ).collect(Collectors.toList())
+                ,article.getCreatedDate()
+                ,article.getModifiedDate());
+
+        return articleDto;
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class Result<T>{
+        private int count;
+        private T data;
+    }
+
+
+}
 
 //    @GetMapping("/api/clubs/lockedArticles/{clubBoardId}")
 //    public Result lockedArticleList(@PathVariable("clubBoardId") Long clubBoardId
@@ -181,56 +175,3 @@ public class ClubArticleApiController {
 //
 //        return new Result(collect.size(),collect);
 //    }
-
-    @GetMapping("/api/clubs/articles/{articleId}")
-    public ArticleDto article(@PathVariable("articleId") Long articleId)
-    {
-        Article article = articleService.findById(articleId);
-
-        ArticleDto articleDto = new ArticleDto(article.getMember().getName()
-        ,article.getData(),article.getImageFileList().stream().map(m-> ImageFileDto.builder()
-                .fileName(m.getFileName())
-                .filePath(m.getFilePath())
-                .fileSize(m.getFileSize())
-                .fileType(m.getFileType())
-                .build()
-                ).collect(Collectors.toList())
-                ,article.getCreatedDate()
-                ,article.getModifiedDate());
-        return articleDto;
-    }
-
-
-
-    @Data
-    @AllArgsConstructor
-    static class Result<T>{
-        private int count;
-        private T data;
-    }
-
-
-
-
-    @Data
-    @AllArgsConstructor
-    static class ArticleListDto{
-        private String data;
-        private LocalDateTime createdDate;
-    }
-
-    @Data
-    @AllArgsConstructor
-    static class ArticleDto{
-
-        private String memberName;
-        private String data;
-        private List<ImageFileDto> imageFileList;
-
-        private LocalDateTime createdDate;
-        private LocalDateTime modifiedDate;
-
-    }
-
-
-}

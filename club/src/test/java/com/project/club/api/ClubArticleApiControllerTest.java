@@ -210,9 +210,9 @@ public class ClubArticleApiControllerTest {
         //when ,then
         mvc.perform(get(url))
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.count").value(2))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].data").value(data))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data[1].data").value(data2));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.articleCount").value(2))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.articleList[0].text").value(data))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.articleList[1].text").value(data2));
     }
 
     @Test

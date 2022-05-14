@@ -1,6 +1,9 @@
 package com.project.club.api;
 
+import com.project.club.api.dto.ClubBoardListDto;
 import com.project.club.api.dto.CreateClubBoardRequestDto;
+import com.project.club.api.dto.CreateClubBoardResponseDto;
+import com.project.club.api.dto.LockResponseDto;
 import com.project.club.domain.Article;
 import com.project.club.domain.Club;
 import com.project.club.domain.ClubBoard;
@@ -28,16 +31,14 @@ public class ClubBoardApiController {
     private final ArticleService articleService;
 
     @PostMapping("/api/clubs/clubBoard/{clubId}")
-    public CreateClubBoardResponse saveClubBoard(HttpServletRequest httpServletRequest, @PathVariable("clubId") Long clubId
+    public CreateClubBoardResponseDto saveClubBoard(HttpServletRequest httpServletRequest, @PathVariable("clubId") Long clubId
     , @RequestBody CreateClubBoardRequestDto request)
     {
         Club club = clubService.findOne(clubId);
-
         if(club==null)
         {
             log.warn("saveClubBoard club was Null clubId = ",clubId);
         }
-
         ClubBoard clubBoard = ClubBoard.builder()
                 .club(club)
                 .name(request.getWikiName())
@@ -48,9 +49,7 @@ public class ClubBoardApiController {
                 .build();
 
         Long id = clubBoardService.join(clubBoard);
-
-        return new CreateClubBoardResponse("위키 게시판 생성 완료");
-
+        return new CreateClubBoardResponseDto("위키 게시판 생성 완료");
     }
 
     @PutMapping("/api/clubs/clubBoard/{clubBoardId}")
@@ -60,51 +59,26 @@ public class ClubBoardApiController {
     }
 
     @GetMapping("/api/clubs/clubBoard/{clubId}")
-    public Result clubBoardList(@PathVariable("clubId") Long clubId){
+    public ResultWithCount clubBoardList(@PathVariable("clubId") Long clubId){
 
         Club club = clubService.findOne(clubId);
         List<ClubBoard> clubBoardList = clubBoardService.findByClub(club);
         List<ClubBoardListDto> collect = clubBoardList.stream().map(m -> new ClubBoardListDto(m.getId(), m.getName()))
                 .collect(Collectors.toList());
 
-        return new Result(collect.size(), collect);
-
+        return new ResultWithCount(collect.size(), collect);
     }
-
-    @Data
-    static class LockResponseDto{
-        private boolean isLock;
-
-        public LockResponseDto(boolean isLock){
-            this.isLock = isLock;
-        }
-    }
-
-
 
     @Data
     @AllArgsConstructor
-    static class Result<T>{
+    static class ResultWithCount<T>{
         private int count;
         private T data;
     }
 
-    @Data
-    @AllArgsConstructor
-    static class ClubBoardListDto{
-        private Long wikiBoardId;
-        private String wikiName;
-    }
 
-    @Data
-    static class CreateClubBoardResponse{
-        private String msg;
 
-        public CreateClubBoardResponse(String msg) {
-            this.msg = msg;
-        }
 
-    }
 
 
 }

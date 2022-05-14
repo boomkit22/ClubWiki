@@ -98,11 +98,11 @@ public class ClubBoardApiControllerTest {
                 .andExpect(status().isOk());
         //then
         List<ClubBoard> all = clubBoardService.findAll();
-        assertThat(all.get(0).getName()).isEqualTo(name);
-        assertThat(all.get(0).getIntro()).isEqualTo(intro);
-        assertThat(all.get(0).getOneLineReview()).isEqualTo(oneLineReview);
+        assertThat(all.get(0).getName()).isEqualTo(wikiName);
+        assertThat(all.get(0).getIntro()).isEqualTo(wikiIntro);
+        assertThat(all.get(0).getOneLineReview()).isEqualTo(cpAnnouncement);
         assertThat(all.get(0).getBoardCategory()).isEqualTo(boardCategory);
-        assertThat(all.get(0).isBLock()).isEqualTo(bLock);
+        assertThat(all.get(0).isBLock()).isEqualTo(isLock);
     }
 
     @Test
@@ -131,9 +131,7 @@ public class ClubBoardApiControllerTest {
         mvc.perform(get(url))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.count").value(1))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].name").value(name))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].intro").value(intro))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].block").value(bLock));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].wikiName").value(name));
 
     }
     
@@ -165,11 +163,11 @@ public class ClubBoardApiControllerTest {
         //when, then
         mvc.perform(put(url))
                 .andExpect(status().isOk())
-                .andExpect(content().string(String.valueOf(!bLock)));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.lock").value(true));
 
         mvc.perform(put(url))
                 .andExpect(status().isOk())
-                .andExpect(content().string(String.valueOf(bLock)));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.lock").value(false));
         }
 
 
