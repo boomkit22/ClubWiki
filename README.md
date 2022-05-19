@@ -16,8 +16,9 @@
 ![동아리등록(6)](https://user-images.githubusercontent.com/91827515/169273961-a182d43f-564d-45e6-9efb-27d54e3894d3.png)
 <br/><br/>
 # 5.전체 동아리 목록
-<img width="845" alt="동아리목록(7)" src="https://user-images.githubusercontent.com/91827515/169274013-0635e1cb-6591-4714-883e-df616dcd5b05.png">
-<br/><br/>
+
+<img width="845" alt="동아리목록(7)" src="https://user-images.githubusercontent.com/91827515/169275091-495f1030-c35f-49cf-9f24-7ff9f1a7f6b3.png">
+
 # 6.가입 동아리 목록
 ![가입동아리목록(8)](https://user-images.githubusercontent.com/91827515/169274061-1b3155ae-bdb6-4a39-81ee-590063670d95.png)
 <br/><br/>
