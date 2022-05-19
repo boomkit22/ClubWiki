@@ -16,7 +16,7 @@
 ![로그인작성(5)](https://user-images.githubusercontent.com/91827515/169273928-70c89e61-8649-4b4b-8377-7fef04aa3d67.png)
 <br/><br/>
 ***
-#4.동아리 등록
+# 4.동아리 등록
 ![동아리등록(6)](https://user-images.githubusercontent.com/91827515/169273961-a182d43f-564d-45e6-9efb-27d54e3894d3.png)
 <br/><br/>
 ***
