@@ -7,8 +7,6 @@
 ## 회원가입 폼 작성
 ![회원가입작성(3)](https://user-images.githubusercontent.com/91827515/169273805-c1011d9d-8f81-4524-9aef-848da4dc1d09.png)
 # 3.로그인
-<img width="301" alt="로그인(4)" src="https://user-images.githubusercontent.com/91827515/169273871-e0c04f66-6215-490e-8f93-7c7564299f9a.png">
-## 로그인 폼 작성
 ![로그인작성(5)](https://user-images.githubusercontent.com/91827515/169273928-70c89e61-8649-4b4b-8377-7fef04aa3d67.png)
 # 4.동아리 등록
 ![동아리등록(6)](https://user-images.githubusercontent.com/91827515/169273961-a182d43f-564d-45e6-9efb-27d54e3894d3.png)
