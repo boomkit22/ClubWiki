@@ -34,3 +34,5 @@
 ![게시글목록(12)](https://user-images.githubusercontent.com/91827515/169274217-6e99d647-6a0b-48fb-960d-25a90178ca9f.png)
 <br/><br/>
 # 11.게시글 내용
+![게시글내용(13)](https://user-images.githubusercontent.com/91827515/169274975-26e54a18-3499-43b7-9a51-db6bbf6caee8.png)
+
