@@ -21,7 +21,7 @@
 <br/><br/>
 ***
 # 5.전체 동아리 목록
-<img width="845" alt="동아리목록(7)" src="https://user-images.githubusercontent.com/91827515/169275091-495f1030-c35f-49cf-9f24-7ff9f1a7f6b3.png">
+<img width="845" alt="동아리목록(7)" src="https://user-images.githubusercontent.com/91827515/169275091-495f1030-c35f-49cf-9f24-7ff9f1a7f6b3.png"/>
 <br/><br/>
 ***
 # 6.가입 동아리 목록
